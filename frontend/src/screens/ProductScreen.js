@@ -31,7 +31,7 @@ const ProductScreen = ({ match }) => {
                             Price: ${product.price}
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            Description:  &nbsp; {product.description}
+                        <strong> Description:</strong> &nbsp; {product.description}
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
