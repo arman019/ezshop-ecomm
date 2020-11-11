@@ -1,10 +1,12 @@
 import express from'express';
 import dotenv from'dotenv'
+import {connectDb} from './config/db.js'
 import products from './data/products.js';
 
+//mongodb+srv://arman019:inzamamul@cluster0.nx4ee.mongodb.net/ezshop
 dotenv.config()
 const app = express();
-
+connectDb()
 app.get('/', (req, res) => {
     res.send('api connected ...')
 })

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "start": "node backend/server",
     "devStart": "nodemon backend/server",
@@ -22,7 +22,8 @@
   "homepage": "https://github.com/arman019/ezshop-ecomm#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.10.13"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
