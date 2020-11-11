@@ -14,7 +14,7 @@ connectDb()
 
 const importData = async () => {
     try {
-        console.log("process",process.argv)
+        //console.log("process",process.argv)
         await Order.deleteMany()
         await Product.deleteMany()
         await User.deleteMany()
@@ -41,7 +41,7 @@ const importData = async () => {
 
 const destroyData = async ()=>{
     try {
-        console.log("process",process.argv[2])
+        //console.log("process",process.argv[2])
         await Order.deleteMany()
         await Product.deleteMany()
         await User.deleteMany()
