@@ -15,7 +15,7 @@ router.get('/',asyncHandler(async (req, res) => {
 router.get('/:id', asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
     //console.log(product)
-    if(product){
+    if(product){   
         res.status(200).json(product)
     }else{
         res.status(404)

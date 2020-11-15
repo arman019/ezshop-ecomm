@@ -1,4 +1,3 @@
-  
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col } from 'react-bootstrap'
@@ -12,7 +11,7 @@ const HomeScreen = () => {
 
   const productList = useSelector((state) => state.productList)
   const { loading ,products, error } = productList
-  console.log("error in homescreen",productList.error)
+ 
 
   useEffect(() => {
     dispatch(listProducts())
