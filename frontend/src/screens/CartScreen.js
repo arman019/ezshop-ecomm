@@ -1,13 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
+import Message from '../components/Message'
+import { addToCart, removeFromCart } from '../actions/cartActions'
+const CartScreen = ({ match, location }) => {
 
-const CartScreen = ({match}) => {
+    const productId = match.params.id
+    const qty = location.search ? Number(location.search.split('=')[1]) : 1
+    const dispatch = useDispatch()
+    const cart = useSelector((state) => state.cart)
+    const { cartItems } = cart
+
+    useEffect(() => {
+        if (productId) {
+            dispatch(addToCart(productId, qty))
+        }
+    }, [dispatch, productId, qty])
 
     return (
         <div>
-            Cart
-          
+            {cartItems.length !== 0 ? cartItems.map((item, i) => (
+                <li key={i}>
+                   Name: {item.name} &nbsp;
+                    qty:   {item.qty}
+                </li>
+            )) : (<h3>NO ITEMS</h3>)}
         </div>
     )
 }
-
 export default CartScreen
