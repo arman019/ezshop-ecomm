@@ -6,7 +6,7 @@ export const Header = () => {
         <header>
             <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
-                <LinkContainer to="/">
+                <LinkContainer to="/" >
                     <Navbar.Brand >EzShop</Navbar.Brand>
                 </LinkContainer>             
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
