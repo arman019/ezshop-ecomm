@@ -29,11 +29,21 @@ const userSchema = mongoose.Schema(
 )
 
 
- userSchema.methods.matchPassword = async function(enteredPassword){
+  userSchema.methods.matchPassword = async function(enteredPassword){
   return  await bcrypt.compare(enteredPassword,this.password)
-} 
+}  
 
 
+
+/* 
+another way to encrypt
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch)=> {
+      if (err) return cb(err);
+      cb(null, isMatch);
+  });
+} */
 const User = mongoose.model('User', userSchema)
 
 export default User
