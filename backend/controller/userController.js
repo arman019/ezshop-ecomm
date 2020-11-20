@@ -61,6 +61,45 @@ export const authUser= (req,res)=>{
  */
 
 
+
+// motive: user registration 
+//route post/api/users
+//public route
+
+export const registerUser = asyncHandler(async (req,res)=>{
+    const {name,email, password} =req.body
+
+    const userExsist = await User.findOne({email})
+
+    if(userExsist){
+        res.status(400)
+        throw new Error('User already exsists')
+    }
+
+    const user = await User.create({
+        name,
+        email,
+        password
+    })
+
+    if(user){
+        res.status(201).json({
+            _id:user._id,
+            email:user.email,
+            isAdmin : user.isAdmin,
+            token:getToken(user._id)
+        })
+    }
+    else{
+        res.status(400)
+        throw new Error('Invalid user creation')
+    }
+
+}) 
+
+
+
+
 export const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
   
