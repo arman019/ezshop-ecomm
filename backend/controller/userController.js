@@ -10,6 +10,7 @@ export const authUser = asyncHandler(async (req,res)=>{
     if(user && (await user.matchPassword(password))){
         res.status(200).json({
             _id:user._id,
+            name:user.name,
             email:user.email,
             isAdmin : user.isAdmin,
             token:getToken(user._id)
@@ -85,6 +86,7 @@ export const registerUser = asyncHandler(async (req,res)=>{
     if(user){
         res.status(201).json({
             _id:user._id,
+            name: user.name,
             email:user.email,
             isAdmin : user.isAdmin,
             token:getToken(user._id)
