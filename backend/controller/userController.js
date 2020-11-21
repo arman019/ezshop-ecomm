@@ -68,7 +68,7 @@ export const authUser= (req,res)=>{
 //public route
 
 export const registerUser = asyncHandler(async (req,res)=>{
-    const {name,email, password} =req.body
+    const {name,email,password} =req.body
 
     const userExsist = await User.findOne({email})
 
@@ -77,14 +77,20 @@ export const registerUser = asyncHandler(async (req,res)=>{
         throw new Error('User already exsists')
     }
 
-    const user = await User.create({
-        name,
-        email,
-        password
-    })
+
+  
+        const user = await User.create({
+            name,
+            email,
+            password
+        })
+    
+    
+
+    console.log(user)
 
     if(user){
-        res.status(201).json({
+        res.json({
             _id:user._id,
             name: user.name,
             email:user.email,
