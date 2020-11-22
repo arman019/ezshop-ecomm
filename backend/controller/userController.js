@@ -135,12 +135,12 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 
 
   if (user) {
-    const {name,email,password} = req.body
-    console.log('name', name,'email', email,'password', password)
+    /* const {name,email,password} = req.body
+    console.log('name', name,'email', email,'password', password) */
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
-    
-    if(req.body.password){
+
+    if (req.body.password) {
       user.password = req.body.password
     }
 
