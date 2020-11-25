@@ -20,7 +20,7 @@ const PlaceOrderScreen = ({ history }) => {
     cart.totalProudcts = Number(
         cart.cartItems.reduce((acc, item) => acc + item.qty, 0)
     )
-console.log(cart.totalProudcts )
+//console.log(cart.totalProudcts )
     cart.totalPrice = Number(addDecimals(
         cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
     )
@@ -33,7 +33,7 @@ console.log(cart.totalProudcts )
         if (success) {
             history.push(`/order/${order._id}`)
         }
-    }, [history, success])
+    }, [history, success,order])
 
     const placeOrderHandler = () => {
        // console.log(cart.totalProducts)

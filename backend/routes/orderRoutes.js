@@ -1,8 +1,9 @@
 import express from 'express'
 const router = express.Router()
-import { addOrderItems } from '../controller/orderController.js'
+import { addOrderItems ,getOrderById} from '../controller/orderController.js'
 import { protect } from '../middlewares/authMiddleware.js'
 
 router.post('/', protect, addOrderItems)
+router.get('/:id', protect, getOrderById)
 
 export default router
