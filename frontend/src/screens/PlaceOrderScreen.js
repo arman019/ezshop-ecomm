@@ -8,6 +8,18 @@ import CheckOutSteps from '../components/CheckOutSteps'
 const PlaceOrderScreen = () => {
     const cart = useSelector(state => state.cart)
 
+    const addDecimals = (num) => {
+        return (Math.round(num * 100) / 100).toFixed(2)
+      }
+
+    cart.totalProudcts =Number(addDecimals(
+        cart.cartItems.reduce((acc, item) => acc + item.qty, 0)
+      ))
+
+      cart.totalPrice=Number(addDecimals(
+        cart.cartItems.reduce((acc, item) => acc + item.price* item.qty, 0))
+      )
+
     const placeOrderHandler = (e) => {
         //
     }
@@ -71,7 +83,7 @@ const PlaceOrderScreen = () => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col> <strong>Total Items</strong></Col>
-                                    <Col className='mr-5'>{cart.cartItems.reduce((acc, item) => acc + item.qty, 0)}</Col>
+                                    <Col className='mr-5'>{cart.totalProudcts}</Col>
 
                                 </Row>
                             </ListGroup.Item>
@@ -79,8 +91,8 @@ const PlaceOrderScreen = () => {
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col> <strong>Total Cost</strong></Col>
-                                    <Col className='mr-5'>${cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)}</Col>
+                                    <Col> <strong>Total Price</strong></Col>
+                                    <Col className='mr-5'>${cart.totalPrice}</Col>
 
                                 </Row>
                             </ListGroup.Item>
