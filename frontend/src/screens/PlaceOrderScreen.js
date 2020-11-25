@@ -1,28 +1,54 @@
-import React, { useState } from 'react'
-import { Form, Button, Card, List, ListGroup, Row, Col, Image } from 'react-bootstrap'
+import React, { useEffect } from 'react'
+import {  Button, Card, ListGroup, Row, Col, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Message from '../components/Message'
 import CheckOutSteps from '../components/CheckOutSteps'
+import { createOrder } from '../actions/orderActions'
 
-const PlaceOrderScreen = () => {
+
+
+const PlaceOrderScreen = ({ history }) => {
     const cart = useSelector(state => state.cart)
+
+    const dispatch = useDispatch()
 
     const addDecimals = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
-      }
-
-    cart.totalProudcts =Number(addDecimals(
-        cart.cartItems.reduce((acc, item) => acc + item.qty, 0)
-      ))
-
-      cart.totalPrice=Number(addDecimals(
-        cart.cartItems.reduce((acc, item) => acc + item.price* item.qty, 0))
-      )
-
-    const placeOrderHandler = (e) => {
-        //
     }
+
+    cart.totalProudcts = Number(
+        cart.cartItems.reduce((acc, item) => acc + item.qty, 0)
+    )
+console.log(cart.totalProudcts )
+    cart.totalPrice = Number(addDecimals(
+        cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0))
+    )
+
+
+    const orderCreate = useSelector((state) => state.orderCreate)
+    const { order, success, error } = orderCreate
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`)
+        }
+    }, [history, success])
+
+    const placeOrderHandler = () => {
+       // console.log(cart.totalProducts)
+        dispatch(
+            createOrder({
+                orderItems: cart.cartItems,
+                shippingAddress: cart.shippingAddress,
+                paymentMethod: cart.paymentMethod,
+                totalProducts: cart.totalProudcts,
+                totalPrice: cart.totalPrice,
+
+            })
+        )
+    }
+
 
     return (
         <>
@@ -75,10 +101,16 @@ const PlaceOrderScreen = () => {
 
                 <Col md={4} >
                     <Card>
+
                         <ListGroup varaint='flush'>
                             <ListGroup.Item>
                                 <h2>Order Details </h2>
                             </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {error && <Message variant='danger'>{error}</Message>}
+                            </ListGroup.Item>
+
 
                             <ListGroup.Item>
                                 <Row>
