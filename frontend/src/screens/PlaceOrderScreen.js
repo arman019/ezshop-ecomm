@@ -52,7 +52,7 @@ const PlaceOrderScreen = ({ history }) => {
 
     return (
         <>
-            <CheckOutSteps step1 step2 step3 />
+            <CheckOutSteps step1 step2 step3 step4/>
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>

@@ -14,8 +14,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
         totalPrice,
     } = req.body
 
-    console.log('totalProducts in backend',totalProducts)
-
+  
     if (orderItems && orderItems.length === 0) {
         res.status(400)
         throw new Error('No order items')
@@ -45,8 +44,11 @@ export  const getOrderById = asyncHandler(async (req, res) => {
     const order = await  Order.findById(req.params.id).populate('user','name email')
 
     if(order){
+       // console.log('order ',order)
         res.status(200)
-        res.json({order})
+       // res.json({order}) // if we 2nd bracket to a json object it will surely fail so dont 
+
+       res.json(order) 
 }
     else{
         res.status(404)
