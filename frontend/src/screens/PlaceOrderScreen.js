@@ -100,18 +100,14 @@ const PlaceOrderScreen = ({ history }) => {
                 </Col>
 
                 <Col md={4} >
-                    <Card>
-
+                    
+                    <Card>                                                                
                         <ListGroup varaint='flush'>
                             <ListGroup.Item>
                                 <h2>Order Details </h2>
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                {error && <Message variant='danger'>{error}</Message>}
-                            </ListGroup.Item>
-
-
+                            </ListGroup.Item>                       
+                                {error ? <Message variant='danger'>{error}</Message> :''}
+                            
                             <ListGroup.Item>
                                 <Row>
                                     <Col> <strong>Total Items</strong></Col>
