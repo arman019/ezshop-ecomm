@@ -1,5 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
+import mongoose from 'mongoose'
+
 
 // motive Create new order
 // routes POST /api/orders
@@ -14,7 +16,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
         totalPrice,
     } = req.body
 
-  
+
     if (orderItems && orderItems.length === 0) {
         res.status(400)
         throw new Error('No order items')
@@ -39,22 +41,19 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // routes Get /api/orders/:id
 // route mode Private
 //showing to  order page in frontend 
-export  const getOrderById = asyncHandler(async (req, res) => {
-   
-    const order = await  Order.findById(req.params.id).populate('user','name email')
+export const getOrderById = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+        'user',
+        'name email'
+    )
 
-    if(order){
-       // console.log('order ',order)
+    if (order) {
         res.status(200)
-       // res.json({order}) // if we 2nd bracket to a json object it will surely fail so dont 
-
-       res.json(order) 
-}
-    else{
+        res.json(order)
+    } else {
         res.status(404)
         throw new Error('Order not found')
-    }    
-    
+    }
 })
 
 
@@ -62,17 +61,17 @@ export  const getOrderById = asyncHandler(async (req, res) => {
 // routes Put /api/orders/:id/pay
 // route mode Private
 
-export  const updateOrderToPaid = asyncHandler(async (req, res) => {
-   
-    const order = await  Order.findById(req.params.id)
-    console.log('req.body in updateOrderToPaid ', req.body)
-    if(order){      
+export const updateOrderToPaid = asyncHandler(async (req, res) => {
+
+    const order = await Order.findById(req.params.id)
+
+    if (order) {
         order.isPaid = true
         order.paidAt = Date.now()
         order.paymentResult = {
-            id:req.body.id,
-            status:req.body.status,
-            update_time:req.body.update_time,
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
             email_address: req.body.payer.email_address
         }
         const updatedOrder = await order.save()
@@ -81,12 +80,28 @@ export  const updateOrderToPaid = asyncHandler(async (req, res) => {
         res.json(updatedOrder)
     }
 
-    else{
+    else {
         res.status(404)
         throw new Error('Updated order cannot be done')
-    }    
-    
+    }
+
 })
 
 
-export { addOrderItems }
+
+// motive  getting orders of single customer
+// routes Put /api/orders/myorders
+// route mode Private
+const getMyOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id })
+    if (orders) {
+        res.status(200)
+        res.json(orders)
+    }
+    else {
+        res.status(404)
+        throw new Error('Orders user error')
+    }
+})
+
+export { addOrderItems, getMyOrders }
