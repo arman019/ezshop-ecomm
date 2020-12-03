@@ -4,6 +4,9 @@ import {
   USER_DETAILS_REQUEST,
   USER_DETAILS_RESET,
   USER_DETAILS_SUCCESS,
+  USER_LIST_FAIL,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
@@ -15,8 +18,8 @@ import {
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants"
-import {ORDER_LIST_MY_RESET} from '../constants/orderConstants'
-import {CART_RESET_ITEM} from '../constants/cartConstants'
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants'
+import { CART_RESET_ITEM } from '../constants/cartConstants'
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -63,7 +66,7 @@ export const logout = () => (dispatch) => {
   })
 
   dispatch({
-    type:CART_RESET_ITEM
+    type: CART_RESET_ITEM
   })
 }
 
@@ -154,9 +157,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     }
     //console.log('userInfo ', userInfo)
-   // console.log('user', user)
+    // console.log('user', user)
 
-    const { data } = await axios.put(`/api/users/profile`,user,config)
+    const { data } = await axios.put(`/api/users/profile`, user, config)
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,
@@ -173,3 +176,42 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     })
   }
 }
+
+
+
+export const getUserList = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    })
+    const { userLogin: { userInfo } } = getState()
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      },
+    }
+
+    // console.log('user', user)
+
+    const { data } = await axios.get(`/api/users`, config)
+    console.log('data', data)
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    })
+
+
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+

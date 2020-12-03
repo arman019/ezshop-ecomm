@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Button, Row, Col, Table  } from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
+import { Form, Button, Row, Col, Table } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getUserDetails,updateUserProfile } from '../actions/userActions'
-import { listMyorders} from '../actions/orderActions'
+import { getUserDetails, updateUserProfile } from '../actions/userActions'
+import { listMyorders } from '../actions/orderActions'
 
 const ProfileScreen = ({ location, history }) => {
    const [name, setName] = useState('')
@@ -22,16 +22,14 @@ const ProfileScreen = ({ location, history }) => {
 
    const userDetails = useSelector((state) => state.userDetails)
    const { loading, error, user } = userDetails
-   
+
    const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
    const { success } = userUpdateProfile
 
    const orderListMy = useSelector((state) => state.orderListMy)
-   const { loading:loadingOrders, error:errorOrders, orders } = orderListMy
+   const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
 
 
-
-   
 
    useEffect(() => {
       if (!userInfo) {
@@ -41,22 +39,27 @@ const ProfileScreen = ({ location, history }) => {
          if (!user.name) {
             dispatch(getUserDetails('profile'))
             dispatch(listMyorders())
+
          } else {
             setName(user.name)
             setEmail(user.email)
          }
+
+
       }
 
-   }, [dispatch, userInfo, user,history])
 
-  // console.log('userDetails ', userDetails)
+
+   }, [dispatch, userInfo, user, history])
+
+   // console.log('userDetails ', userDetails)
 
    const submitHandler = (e) => {
       e.preventDefault()
       if (password !== confirmPassword) {
          setMessage('Passwords do not match')
       } else {
-         dispatch(updateUserProfile({id:user._id,name,email,password}))
+         dispatch(updateUserProfile({ id: user._id, name, email, password }))
       }
    }
 
@@ -121,28 +124,28 @@ const ProfileScreen = ({ location, history }) => {
                   {loadingOrders ? <Loader /> : errorOrders ? <Message variant='danger' >
                      {errorOrders}
                   </Message> : (
-                     <Table striped borderless hover responsive className='table-md'>
-                        <thead>
-                           <tr>
-                              <th>ID</th>
-                              <th>DATE</th>
-                              <th>TOTAL</th>
-                              <th>PAID</th> 
-                              <th>DELIVERED</th>
-                              <th></th>                             
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {orders.map(order =>(
-                              <tr key={order._id}>
+                        <Table striped borderless hover responsive className='table-md'>
+                           <thead>
+                              <tr>
+                                 <th>ID</th>
+                                 <th>DATE</th>
+                                 <th>TOTAL</th>
+                                 <th>PAID</th>
+                                 <th>DELIVERED</th>
+                                 <th></th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {orders.map(order => (
+                                 <tr key={order._id}>
                                     <td>{order._id}</td>
-                                    <td>{order.createdAt.substring(0,10)}</td>
+                                    <td>{order.createdAt.substring(0, 10)}</td>
                                     <td>{order.totalPrice}</td>
-                                    <td>{order.isPaid? order.paidAt.substring(0,10):
-                                    (<i className='fas fa-times' style={{color:'red'}}></i>)
+                                    <td>{order.isPaid ? order.paidAt.substring(0, 10) :
+                                       (<i className='fas fa-times' style={{ color: 'red' }}></i>)
                                     }</td>
-                                    <td>{order.isDelivered? order.deliverdAt.substring(0,10):
-                                    (<i className='fas fa-times' style={{color:'red'}}></i>)
+                                    <td>{order.isDelivered ? order.deliverdAt.substring(0, 10) :
+                                       (<i className='fas fa-times' style={{ color: 'red' }}></i>)
                                     }</td>
                                     <td>
                                        <LinkContainer to={`/order/${order._id}`}>
@@ -151,11 +154,11 @@ const ProfileScreen = ({ location, history }) => {
                                           </Button>
                                        </LinkContainer>
                                     </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </Table>
-                  )}
+                                 </tr>
+                              ))}
+                           </tbody>
+                        </Table>
+                     )}
                </Col>
             </Row>
          )
@@ -164,13 +167,16 @@ const ProfileScreen = ({ location, history }) => {
 
    return (
       <>
-         <Button onClick={() => setDisp(!disp)} 
-         type='btn btn-block' variant='primary' 
-         style={{ width: '100%', fontSize: '1.4rem' }}>
-         <i className="fa fa-info " aria-hidden="true"> </i> &nbsp; Profile Update and Order Info
+         <Button onClick={() => setDisp(!disp)}
+            type='btn btn-block' variant='primary'
+            style={{ width: '100%', fontSize: '1.4rem' }}>
+            <i className="fa fa-info " aria-hidden="true"> </i> &nbsp; Profile Update and Order Info
 
-      </Button>
+         </Button>
          {showForm()}
+
+
+
       </>
 
 
