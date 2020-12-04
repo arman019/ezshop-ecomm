@@ -1,5 +1,5 @@
 import express from 'express';
-import {authUser,getUserProfile,registerUser,updateUserProfile,getAllUsers} from '../controller/userController.js'
+import {authUser,getUserProfile,registerUser,updateUserProfile,getAllUsers,deleteUser} from '../controller/userController.js'
 import {protect,adminAuth} from '../middlewares/authMiddleware.js'
 
 const router = express.Router();
@@ -11,6 +11,7 @@ router.post('/login',authUser)
 
 router.get('/profile',protect,getUserProfile)
 router.put('/profile',protect,updateUserProfile)
+router.delete('/:id',protect,adminAuth,deleteUser)
 
 
 
