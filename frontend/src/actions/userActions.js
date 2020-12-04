@@ -6,6 +6,7 @@ import {
   USER_DETAILS_SUCCESS,
   USER_LIST_FAIL,
   USER_LIST_REQUEST,
+  USER_LIST_RESET,
   USER_LIST_SUCCESS,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -67,6 +68,10 @@ export const logout = () => (dispatch) => {
 
   dispatch({
     type: CART_RESET_ITEM
+  })
+
+  dispatch({
+    type: USER_LIST_RESET
   })
 }
 
