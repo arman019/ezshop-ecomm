@@ -211,8 +211,7 @@ export const getUserById = (async (req,res)=>{
   const user = await User.findById(req.params.id).select('-password')
 
 
-  if(user){
-    res.status(300)
+  if(user){    
     res.json(user)
   }
   else{
@@ -237,6 +236,7 @@ export const updateUserByAdmin = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email
     user.isAdmin = req.body.isAdmin
     const updatedUser = await user.save()
+    
 
     res.status(201).json({
       _id: updatedUser._id,
