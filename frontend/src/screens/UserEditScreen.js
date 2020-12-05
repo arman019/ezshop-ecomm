@@ -1,90 +1,109 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Button,  } from 'react-bootstrap'
+import { Form, Button, } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { getUserDetails } from '../actions/userActions'
+import { getUserDetails, updateUserByAdmin } from '../actions/userActions'
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 
 const UserEditScreen = ({ match, history }) => {
-    const userId =match.params.id
+    const userId = match.params.id
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [isAdmin , setIsAdmin] = useState(false)
+    const [isAdmin, setIsAdmin] = useState(false)
 
     const dispatch = useDispatch()
 
-    const userDetails= useSelector((state) => state.userDetails)
+    const userDetails = useSelector((state) => state.userDetails)
     const { loading, error, user } = userDetails
 
+    const userUpdate = useSelector((state) => state.userUpdate)
+    const { loading: loadingUpdate, error: errorUpdate, success: updateSuccess } = userUpdate
+
     useEffect(() => {
-        if(!user.name || user._id !== userId){
 
-            dispatch(getUserDetails(userId))
+        if (updateSuccess) {
+            dispatch({ type: USER_UPDATE_RESET })
+            history.push('/admin/userlist')
+        }
+        else {
+
+            if (!user.name || user._id !== userId) {
+
+                dispatch(getUserDetails(userId))
+            }
+
+            else {
+                setName(user.name)
+                setEmail(user.email)
+                setIsAdmin(user.isAdmin)
+            }
         }
 
-        else{
-            setName(user.name)
-            setEmail(user.email)
-            setIsAdmin(user.isAdmin)
-        }
-    }, [dispatch,userId,user])
+    }, [dispatch, userId, user,updateSuccess,history])
 
     const submitHandler = (e) => {
         e.preventDefault()
+
+        dispatch(updateUserByAdmin({ _id: userId, name, email, isAdmin }))
+
+
     }
 
     return (
         <>
-        <Link to='/admin/userlist' className='btn btn-light my-3'>
-            Back To List
+            <Link to='/admin/userlist' className='btn btn-light my-3'>
+                Back To List
         </Link>
-        <FormContainer>
-            <h2>Edit User</h2>
-            {loading ? <Loader /> : 
-            error ? <Message variant='danger'>{error}</Message>:
-            (
-                <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder='Enter name'
-                        value={name}
-                        required={true}
-                        onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
-            
-                <Form.Group controlId='Email'>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Email Address'
-                        value={email}
-                        required={true}
-                        onChange={(e) => setEmail(e.target.value)}
-                    ></Form.Control>
-                </Form.Group>
+            <FormContainer>
+                <h2>Edit User</h2>
+                {loadingUpdate && <Loader />}
+                {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
+                {loading ? <Loader /> :
+                    error ? <Message variant='danger'>{error}</Message> :
+                        (
+                            <Form onSubmit={submitHandler}>
+                                <Form.Group controlId='name'>
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control
+                                        type='text'
+                                        placeholder='Enter name'
+                                        value={name}
+                                        required={true}
+                                        onChange={(e) => setName(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
 
-                <Form.Group controlId='isAdmin'>
-                    <Form.Label>Admin check</Form.Label>
-                    <Form.Check
-                        type='checkbox'
-                        label='Is Admin?'
-                        checked={isAdmin}
-                        onChange={(e) => setIsAdmin(e.target.checked)}
-                    ></Form.Check>
-                </Form.Group>
-                <Button type='submit' variant='primary'>
-                    Update
+                                <Form.Group controlId='email'>
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        type='email'
+                                        placeholder='Email Address'
+                                        value={email}
+                                        required={true}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    ></Form.Control>
+                                </Form.Group>
+
+                                <Form.Group controlId='isAdmin'>
+                                    <Form.Label>Admin check</Form.Label>
+                                    <Form.Check
+                                        type='checkbox'
+                                        label='Is Admin?'
+                                        checked={isAdmin}
+                                        onChange={(e) => setIsAdmin(e.target.checked)}
+                                    ></Form.Check>
+                                </Form.Group>
+                                <Button type='submit' variant='primary'>
+                                    Update
                 </Button>
-            </Form>   
-            )
-            }
+                            </Form>
+                        )
+                }
             </FormContainer>
-            
+
         </>
     )
 }
