@@ -24,7 +24,8 @@ const ProductListScreen = ({ history,match }) => {
 
 
     useEffect(() => {
-        dispatch({type:PRODUCT_CREATE_RESET})
+       dispatch({type:PRODUCT_CREATE_RESET})
+
         if (!userInfo.isAdmin) {
            history.push(`/login`)
         }
@@ -92,7 +93,7 @@ const ProductListScreen = ({ history,match }) => {
                                 
                                         
                                         <td>
-                                            <LinkContainer to={`/admin/products/${product._id}/edit`}>
+                                            <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                                 <Button variant='light' className='btn-sm '>
                                                     <i className='fas fa-edit'></i>
                                                 </Button>
