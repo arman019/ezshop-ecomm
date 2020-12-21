@@ -26,7 +26,7 @@ app.get('/api/config/paypal',(req,res) => res.send(process.env.PAYPAL_CLIENT_ID)
 
 const __dirname = path.resolve() // because we are not using general nodjs format we have to use path.resolve her
 
-app.use('/uploads',(express.static (path.join(__dirname,'/uploads')))) // making uploads folder static
+app.use('/uploads',express.static (path.join(__dirname,'/uploads'))) // making uploads folder static
 
 app.use(notFound)
 app.use(errorHandler)
