@@ -87,8 +87,6 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
 
 })
 
-
-
 // motive  getting orders of single customer
 // routes Put /api/orders/myorders
 // route mode Private
@@ -103,5 +101,23 @@ const getMyOrders = asyncHandler(async (req, res) => {
         throw new Error('Orders user error')
     }
 })
+
+// motive  getting all orders
+// routes Put /api/orders
+// route mode Private for Admin usage
+export const getOrders = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate('user','id name')
+    if (orders) {
+        res.status(200)
+        res.json(orders)
+    }
+    else {
+        res.status(404)
+        throw new Error('Orders user error')
+    }
+})
+
+
+
 
 export { addOrderItems, getMyOrders }

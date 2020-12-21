@@ -67,11 +67,11 @@ const ProductEditScreen = ({ match, history }) => {
 
     const uploadFileHandler = async (e) =>{
         const file = e.target.files[0] // gives all the file bcz we are using single upload only need first item from files array
-        console.log('file ',file)
+        //console.log('file ',file)
         const formData = new FormData()
-        console.log('formdata ', formData)
+        //console.log('formdata ', formData)
         formData.append('image',file)
-        console.log('after image formdata ', formData)
+        //console.log('after image formdata ', formData)
         setUploading(true)
 
         try {
