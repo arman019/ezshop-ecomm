@@ -87,6 +87,31 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
 
 })
 
+// motive  order delivering update
+// routes Put /api/orders/:id/deliverd
+// route mode Private for Admin usage
+
+export const updateDelivery = asyncHandler(async (req, res) => {
+
+    const order = await Order.findById(req.params.id)
+
+    if (order) {
+        order.isDelivered = true
+        order.deliveredAt = Date.now()
+
+        const updatedOrder = await order.save()
+
+        res.status(201)
+        res.json(updatedOrder)
+    }
+
+    else {
+        res.status(404)
+        throw new Error('Updated order cannot be done')
+    }
+
+})
+
 // motive  getting orders of single customer
 // routes Put /api/orders/myorders
 // route mode Private
