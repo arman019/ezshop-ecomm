@@ -1,5 +1,6 @@
 import express from'express';
 import path from 'path'
+import morgan from 'morgan'
 import dotenv from'dotenv'
 import {connectDb} from './config/db.js'
 import {notFound,errorHandler} from './middlewares/errorMiddleware.js'
@@ -11,7 +12,9 @@ import uploadRoutes from './routes/uploadRoutes.js'
 dotenv.config()
 const app = express();
 app.use(express.json()) //its like body-parser to parse json files
-
+if(process.env.NODE_ENV === 'development'){
+    app.use(morgan('dev'))
+}
 connectDb()
 app.get('/', (req, res) => {
     res.send('api connected ...')
